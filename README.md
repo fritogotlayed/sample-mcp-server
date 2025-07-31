@@ -1,6 +1,7 @@
 # Sample MCP Server
 
-A sample implementation of a Machine Conversation Protocol (MCP) server with HTTP support. This server provides a simple phonebook API that can be accessed via HTTP.
+A sample implementation of a Machine Conversation Protocol (MCP) server with HTTP support. This server provides a simple
+phonebook API that can be accessed via HTTP.
 
 ## Features
 
@@ -75,7 +76,7 @@ Test the HTTP server specifically:
 deno task start:http
 
 # In another terminal, run the HTTP test script
-deno run --allow-net test_http_server.ts
+deno run --allow-net test-http-server.ts
 ```
 
 ## API
@@ -147,12 +148,11 @@ curl -X POST http://localhost:8000 \
 
 - `main.ts`: Main entry point
 - `deno.json`: Project configuration
-- `database.json`: JSON database file
-- `src/models/types.ts`: Type definitions
+- `database.json`: A sample database file implemented as JSON
+- `src/models/types.ts`: Type definitions for the domain model
 - `src/services/database.service.ts`: Database service
 - `src/services/tools.service.ts`: Tools service
-- `src/services/mcp-server.service.ts`: MCP server service
-- `test_http_server.ts`: HTTP server test script
+- `src/tools/`: Tool implementations
 
 ## License
 

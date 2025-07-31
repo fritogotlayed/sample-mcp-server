@@ -1,0 +1,49 @@
+# Deno / TypeScript
+.deno/
+deno-dir/
+.DENO_DIR/
+
+# OS / Editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Coverage
+coverage/
+coverage*.json
+lcov.*
+
+# Caches / Temp
+.cache/
+.tmp/
+tmp/
+temp/
+*.tmp
+
+# Build artifacts (none expected for Deno, but keep generic entries)
+dist/
+build/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Project-specific temporary database used by tests
+test_database.json
+
+# Misc
+*.bak
+*.orig

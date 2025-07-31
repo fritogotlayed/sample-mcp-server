@@ -23,18 +23,6 @@
       "name": "Test Person",
       "email": "test@example.com",
       "phone": "123-456-7890"
-    },
-    {
-      "id": "5",
-      "name": "Test Person",
-      "email": "test@example.com",
-      "phone": "123-456-7890"
-    },
-    {
-      "id": "6",
-      "name": "Test Person",
-      "email": "test@example.com",
-      "phone": "123-456-7890"
     }
   ]
 }
