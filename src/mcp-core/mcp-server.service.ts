@@ -4,6 +4,14 @@ import { CustomMcpServer } from './custom-mcp.ts';
 import { randomUUID } from 'node:crypto';
 import { ToolsService } from './tools.service.ts';
 
+const verboseLogging = !!Deno.env.get('MCP_VERBOSE_LOGGING');
+
+const logMessage = (...msg: string[]) => {
+  if (verboseLogging) {
+    console.log(...msg);
+  }
+}
+
 /**
  * Service for handling MCP server operations
  */
@@ -74,8 +82,8 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
       this.mcpServer.tool(
         tool.name,
         tool.description,
-        tool.inputSchema.properties,
-        {},
+        tool.inputSchema.properties ?? {},
+        tool.outputSchema?.properties ?? {},
         async (args: Record<string, unknown>) => {
           if (!this.registry) {
             throw new Error('Tool registry not initialized');
@@ -113,14 +121,14 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
     try {
       switch (request.method) {
         case 'tools/list': {
-          console.log('Handling tools/list request...');
+          logMessage('Handling tools/list request...');
           return this.createSuccessResponse(request.id, {
             tools: this.registry.listTools(),
           });
         }
 
         case 'tools/call': {
-          console.log('Handling tools/call request...');
+          logMessage('Handling tools/call request...');
           if (!request.params || !this.isToolsCallParams(request.params)) {
             throw new Error('Invalid or missing parameters for tools/call');
           }
@@ -140,7 +148,7 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
         }
 
         case 'initialize': {
-          console.log('Handling initialize request...');
+          logMessage('Handling initialize request...');
           return this.createSuccessResponse(request.id, {
             protocolVersion: '2024-11-05',
             capabilities: {
@@ -158,12 +166,12 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
         }
 
         case 'ping': {
-          console.log('Handling ping request...');
+          logMessage('Handling ping request...');
           return this.createSuccessResponse(request.id, {});
         }
 
         default: {
-          console.log('Unknown method:', request.method);
+          logMessage('Unknown method:', request.method);
           throw new Error(`Unknown method: ${request.method}`);
         }
       }
@@ -225,7 +233,7 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
       port: this.port,
       hostname: '0.0.0.0',
       handler: async (request: Request) => {
-        console.log(`Handling HTTP request: ${request.method} ${request.url}`);
+        logMessage(`Handling HTTP request: ${request.method} ${request.url}`);
 
         // Handle health check endpoint
         if (
@@ -239,16 +247,16 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
         if (
           request.method === 'POST' && new URL(request.url).pathname === '/'
         ) {
-          console.log(`IN POST HANDLER: ${request.method} ${request.url}`);
+          logMessage(`IN POST HANDLER: ${request.method} ${request.url}`);
           try {
             const requestBody = await request.json();
-            console.log(
+            logMessage(
               `Request Body: ${JSON.stringify(requestBody, null, 2)}`,
             );
 
             // Validate the request
             if (!requestBody.jsonrpc || !requestBody.method) {
-              console.log('Invalid request found');
+              logMessage('Invalid request found');
               return new Response(
                 JSON.stringify({
                   jsonrpc: '2.0',
@@ -266,7 +274,7 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
             }
 
             // Handle the request
-            console.log('Handling request...');
+            logMessage('Handling request...');
             const mcpRequest = requestBody as MCPRequest;
             const mcpResponse = await this.handleRequest(mcpRequest);
 
@@ -304,10 +312,10 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
         if (
           request.method === 'DELETE' && new URL(request.url).pathname === '/'
         ) {
-          console.log(`IN DELETE HANDLER: ${request.method} ${request.url}`);
+          logMessage(`IN DELETE HANDLER: ${request.method} ${request.url}`);
           try {
             const sessionId = request.headers.get('mcp-session-id');
-            console.log(
+            logMessage(
               `Session ID: ${sessionId ?? 'No session ID found'}`,
             );
           } catch (error) {

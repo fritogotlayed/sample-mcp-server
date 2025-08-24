@@ -23,7 +23,7 @@ async function main() {
     dbPath: './database.json',
     serverName: 'phonebook-mcp-server',
     serverVersion: '1.0.0',
-    httpPort: 8000,
+    httpPort: Number(Deno.env.get('API_HTTP_PORT')) || 8000,
   };
 
   try {
