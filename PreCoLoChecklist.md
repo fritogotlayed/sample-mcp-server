@@ -12,6 +12,8 @@
       [docker-based approach](https://github.com/fritogotlayed/n8n-playground)
     - All examples should use `host.docker.internal` instead of `localhost`
 - [ ] Install [Ollama](https://ollama.com/download)
+  - You may need to start Ollama for the below commands to work. You'll know it's running by seeing the llama icon in
+    the tray
 - [ ] Install one or more Ollama models that support **tools**
   - [Ollama Search page](https://ollama.com/search?c=tools) can be used to find appropriate models
   - In terminal, use `ollama pull <name>:<label>`. Example: `ollama pull llama3.2:1b`
