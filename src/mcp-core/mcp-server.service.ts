@@ -4,7 +4,6 @@ import { CustomMcpServer } from './custom-mcp.ts';
 import { randomUUID } from 'node:crypto';
 import { ToolsService } from './tools.service.ts';
 
-
 const logMessage = (...msg: string[]) => {
   if (Deno.env.get('MCP_VERBOSE_LOGGING')) {
     console.log(...msg);

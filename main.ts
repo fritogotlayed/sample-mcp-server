@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-net --allow-env
 
-import { parse } from 'jsr:@std/dotenv';
+import './src/env/load.ts'; // Load environment variables from .env files
 import { MCPServerService } from './src/mcp-core/mcp-server.service.ts';
 import { DatabaseService } from './src/services/database.service.ts';
 
@@ -47,43 +47,11 @@ function main() {
   }
 }
 
-const parseFileSync = (
-  filepath: string | URL,
-): Record<string, string> => {
-  try {
-    return parse(Deno.readTextFileSync(filepath));
-  } catch (e) {
-    if (e instanceof Deno.errors.NotFound) return {};
-    throw e;
-  }
-};
-
-const loadEnv = (options: { envPath?: string; export?: boolean } = {}) => {
-  const {
-    envPath = '.env',
-    export: _export = false,
-  } = options;
-  const conf = envPath ? parseFileSync(envPath) : {};
-
-  if (_export) {
-    for (const [key, value] of Object.entries(conf)) {
-      Deno.env.set(key, value);
-    }
-  }
-};
-
 // Run the application if this is the main module
 if (import.meta.main) {
   console.log(
     'Environment variable TOKEN is: ' + (Deno.env.get('TOKEN') ?? 'Not set'),
   );
-
-  const nodeEnv = Deno.env.get('NODE_ENV');
-  loadEnv({ export: true });
-  if (nodeEnv) {
-    loadEnv({ envPath: `.env.${nodeEnv}`, export: true });
-  }
-
   main();
 }
 
