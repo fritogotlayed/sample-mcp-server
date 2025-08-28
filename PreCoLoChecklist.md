@@ -2,7 +2,11 @@
 
 - [ ] Can run `n8n` from the CLI
   - Option 1 (via `npx`): `npx n8n`
-    - Use your favorite tool like npm, nvm, asdf, etc.
+    - Use your favorite tool like nvm, asdf, etc. to install `node` / `npm`.
+    - If you do not have `nvm` installed and have no preference you will likely need to install `xcode-select` on your
+      mac.
+      - From the terminal run `xcode-select --install` then in your settings -> General download and install
+        xcode-select.
   - Option 2 (via `docker` / `docker-compose`)
     - If you _really_ don't want to use `npx`, you can use this
       [docker-based approach](https://github.com/fritogotlayed/n8n-playground)
@@ -12,8 +16,11 @@
   - [Ollama Search page](https://ollama.com/search?c=tools) can be used to find appropriate models
   - In terminal, use `ollama pull <name>:<label>`. Example: `ollama pull llama3.2:1b`
     - `llama3.2:latest` and/or `gpt-oss:latest` are good choices
+    - **NOTE**: If you have a lower amount of system ram, i.e. 16GB or less, you likely want to use a smaller model like
+      `llama3.2:1b`
 - [ ] Install [Deno](https://deno.com/) so it can be used from the CLI
   - `deno --version` should return the deno version, typescript version, and v8 version
+- [ ] Download or `git clone` this repository
 
 # Other Useful Tools
 
