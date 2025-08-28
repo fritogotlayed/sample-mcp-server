@@ -37,9 +37,8 @@ dist/
 build/
 
 # Environment files
-.env
+!.env
 .env.*
-!.env.example
 
 # Project-specific temporary database used by tests
 test_database.json

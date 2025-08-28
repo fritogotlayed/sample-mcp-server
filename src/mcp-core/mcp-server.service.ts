@@ -10,7 +10,7 @@ const logMessage = (...msg: string[]) => {
   if (verboseLogging) {
     console.log(...msg);
   }
-}
+};
 
 /**
  * Service for handling MCP server operations

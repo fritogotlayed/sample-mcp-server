@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { ToolDefinition } from '../mcp-core/ports/tool-registry.ts';
 import { ToolHandlerCallback } from '../mcp-core/types.ts';
-import { nameSchema } from "../domain/schema-fragments.ts";
-import {zodToInputSchema} from "../domain/zod-to-input-schema.ts";
+import { nameSchema } from '../domain/schema-fragments.ts';
+import { zodToInputSchema } from '../domain/zod-to-input-schema.ts';
 
 /*
  * The args object schema object that will be consumed by the handler

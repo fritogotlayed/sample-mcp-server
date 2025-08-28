@@ -1,9 +1,11 @@
 {
   "tasks": {
-    "dev": "deno run --allow-read --allow-write --allow-net --allow-env --watch main.ts",
-    "start": "deno run --allow-read --allow-write --allow-net --allow-env main.ts",
-    "test": "deno test --allow-read --allow-write --allow-net --allow-env",
-    "types:check": "deno check"
+    "dev:start": "deno run --allow-read --allow-write --allow-net --allow-env --watch main.ts",
+    "prod:start": "deno run --allow-read --allow-write --allow-net --allow-env main.ts",
+    "tool:check": "deno check . && deno lint && deno fmt --check",
+    "tool:check:types": "deno check",
+    "tool:test": "NODE_ENV=test deno test --allow-read --allow-write --allow-net --allow-env --fail-fast",
+    "tool:test:coverage": "NODE_ENV=test deno task tool:test --coverage --clean && deno coverage --detailed"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
