@@ -8,14 +8,14 @@
     directory where you downloaded or cloned the repo.
 - If you run `ls`, list, you should see a `database.json`, `start-inspector.sh`, `start-mcp.sh`, and `start-n8n.sh`
   files. This means you're in the right spot!
-- With terminal open, run the `start-mcp.sh` command.
+- With terminal open, run the `./start-mcp.sh` command.
   - You should see a message that includes `starting HTTP server on port 8000`
 - With the terminal window in focus, in the top bar you should see a "Shell" option. From that click the "New Tab"
   option.
-  - In the new tab, run the `start-n8n.sh` command.
+  - In the new tab, run the `./start-n8n.sh` command.
 - With the terminal window in focus, in the top bar you should see a "Shell" option. From that click the "New Tab"
   option.
-  - In the new tab, run the `start-inspector.sh` command.
+  - In the new tab, run the `./start-inspector.sh` command.
 
 ## Turn all this stuff off
 

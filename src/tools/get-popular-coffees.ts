@@ -26,6 +26,7 @@ export const handler: ToolHandlerCallback = async () => {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
+      // 'Authorization': `Bearer ${Deno.env.get('TOKEN')}`,
     },
   });
   const data = await response.json();
