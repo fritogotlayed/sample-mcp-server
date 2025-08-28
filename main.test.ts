@@ -94,10 +94,23 @@ Deno.test('DatabaseService - CRUD operations', () => {
 
 // Test MCPServerService
 Deno.test('MCPServerService - Request handling', async () => {
+  class TestMCPServerService extends MCPServerService {
+    constructor(
+      serverName: string,
+      serverVersion: string,
+    ) {
+      super(serverName, serverVersion);
+    }
+
+    public override handleRequest(request: MCPRequest) {
+      return super.handleRequest(request);
+    }
+  }
+
   try {
     // Setup
     createTestDatabase();
-    const serverService = new MCPServerService(
+    const serverService = new TestMCPServerService(
       'test-server',
       '1.0.0',
     );
@@ -148,7 +161,7 @@ Deno.test('MCPServerService - Request handling', async () => {
     assertEquals(errorResponse.error?.code, -32000);
     assertEquals(
       errorResponse.error?.message,
-      'Unknown method: unknown_method',
+      'Unknown method',
     );
   } finally {
     // Cleanup

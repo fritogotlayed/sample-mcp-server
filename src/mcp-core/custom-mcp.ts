@@ -139,7 +139,7 @@ export class CustomMcpServer {
 
   /**
    * Connects the server to a transport (no-op in this implementation)
-   * @param transport The transport (not used)
+   * @param _transport The transport (not used)
    */
   public connect(_transport: unknown): Promise<void> {
     // This is a no-op in our implementation

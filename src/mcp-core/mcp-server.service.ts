@@ -4,10 +4,9 @@ import { CustomMcpServer } from './custom-mcp.ts';
 import { randomUUID } from 'node:crypto';
 import { ToolsService } from './tools.service.ts';
 
-const verboseLogging = !!Deno.env.get('MCP_VERBOSE_LOGGING');
 
 const logMessage = (...msg: string[]) => {
-  if (verboseLogging) {
+  if (Deno.env.get('MCP_VERBOSE_LOGGING')) {
     console.log(...msg);
   }
 };
@@ -25,7 +24,6 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
 
   /**
    * Creates a new MCPServerService
-   * @param registry The tool registry to use
    * @param serverName The name of the server
    * @param serverVersion The version of the server
    * @param port The HTTP server port (default: 8000)
@@ -112,8 +110,7 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
    * @returns The MCP response
    * @remarks This method is public for testing purposes only. End users should not call it directly.
    */
-  public async handleRequest(request: MCPRequest): Promise<MCPResponse> {
-    // TODO: Maybe make protected and inherit this with a new class for testing?
+  protected async handleRequest(request: MCPRequest): Promise<MCPResponse> {
     if (!this.registry) {
       throw new Error('Tool registry not initialized');
     }
@@ -130,7 +127,7 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
         case 'tools/call': {
           logMessage('Handling tools/call request...');
           if (!request.params || !this.isToolsCallParams(request.params)) {
-            throw new Error('Invalid or missing parameters for tools/call');
+            return this.createErrorResponse(request.id, 'Invalid or missing parameters for tools/call');
           }
           const toolsParams = request.params as ToolsCallParams;
           const result = this.registry.callTool(
@@ -172,7 +169,7 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
 
         default: {
           logMessage('Unknown method:', request.method);
-          throw new Error(`Unknown method: ${request.method}`);
+          return this.createErrorResponse(request.id, 'Unknown method');
         }
       }
     } catch (error) {
