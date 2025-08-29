@@ -1,6 +1,7 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-net --allow-env
 
 import '@fritogotlayed/dotenv-enhanced/load-env'; // Load environment variables from .env files
+import { identityApi, txmApi } from './src/utils/clients.ts'
 import { MCPServerService } from './src/mcp-core/mcp-server.service.ts';
 import { DatabaseService } from './src/services/database.service.ts';
 
@@ -37,6 +38,8 @@ function main() {
     // Register services
     serverService.registerServices({
       databaseService: new DatabaseService(config.dbPath),
+      txmService: txmApi,
+      identityService: identityApi,
     });
 
     // Start the server with the specified mode
