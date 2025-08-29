@@ -1,6 +1,7 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@fritogotlayed/dotenv-enhanced@~0.1.1": "0.1.1",
     "jsr:@std/assert@1": "1.0.13",
     "jsr:@std/dotenv@*": "0.225.3",
     "jsr:@std/dotenv@~0.225.5": "0.225.5",
@@ -9,6 +10,12 @@
     "npm:zod@^4.0.17": "4.1.0"
   },
   "jsr": {
+    "@fritogotlayed/dotenv-enhanced@0.1.1": {
+      "integrity": "df290070bde7793dfee31b16ae8c2717089eb46560f3f5de90e8ef6de9f09c07",
+      "dependencies": [
+        "jsr:@std/dotenv@~0.225.5"
+      ]
+    },
     "@std/assert@1.0.13": {
       "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29",
       "dependencies": [
@@ -57,8 +64,8 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@fritogotlayed/dotenv-enhanced@~0.1.1",
       "jsr:@std/assert@1",
-      "jsr:@std/dotenv@~0.225.5",
       "npm:zod@^4.0.17"
     ]
   }

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write --allow-net --allow-env
 
-import './src/env/load.ts'; // Load environment variables from .env files
+import '@fritogotlayed/dotenv-enhanced/load-env'; // Load environment variables from .env files
 import { MCPServerService } from './src/mcp-core/mcp-server.service.ts';
 import { DatabaseService } from './src/services/database.service.ts';
 
