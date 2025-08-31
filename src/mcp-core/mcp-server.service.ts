@@ -229,6 +229,11 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
       port: this.port,
       hostname: '0.0.0.0',
       handler: async (request: Request) => {
+        const httpApiToken = Deno.env.get('HTTP_API_TOKEN');
+        if ( httpApiToken && request.headers.get('Authorization') !== `Bearer ${httpApiToken}`) {
+          return new Response('Unauthorized', { status: 401 });
+        }
+
         logMessage(`Handling HTTP request: ${request.method} ${request.url}`);
 
         // Handle health check endpoint
