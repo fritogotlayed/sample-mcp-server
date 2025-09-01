@@ -27,22 +27,22 @@ function getInnerType(s: z.ZodTypeAny): z.ZodTypeAny | undefined {
 
 function getEnumValues(schema: z.ZodTypeAny): string[] | undefined {
   const def = getDef(schema) as any;
-  
+
   // Zod enum stores values in _def.entries object
   if (def?.entries && typeof def.entries === 'object') {
     return Object.values(def.entries);
   }
-  
+
   // Fallback: try _def.values array for other Zod versions
   if (def?.values && Array.isArray(def.values)) {
     return def.values;
   }
-  
+
   // Try alternative locations where enum values might be stored
   if (def?.options && Array.isArray(def.options)) {
     return def.options;
   }
-  
+
   return undefined;
 }
 
@@ -77,7 +77,7 @@ export function zodToInputSchema(schema: z.ZodTypeAny): InputOutputSchema {
     // Currently support only strings; fall back to "string" if unknown
     const type = inferType(base);
     const propertyDef: { type: string; enum?: string[] } = { type: type ?? 'string' };
-    
+
     // Handle enum types
     if (type === 'enum') {
       const enumValues = getEnumValues(base);
@@ -85,7 +85,7 @@ export function zodToInputSchema(schema: z.ZodTypeAny): InputOutputSchema {
         propertyDef.enum = enumValues;
       }
     }
-    
+
     properties[key] = propertyDef;
 
     // Required if field is not optional
@@ -108,8 +108,10 @@ function unwrap(schema: z.ZodTypeAny): z.ZodTypeAny {
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const typeName = getTypeName(current);
-    if (typeName === 'optional' || typeName === 'default' || 
-        typeName === 'ZodOptional' || typeName === 'ZodDefault') {
+    if (
+      typeName === 'optional' || typeName === 'default' ||
+      typeName === 'ZodOptional' || typeName === 'ZodDefault'
+    ) {
       const inner = getInnerType(current);
       if (!inner) break;
       current = inner;

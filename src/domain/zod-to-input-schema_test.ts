@@ -2,8 +2,6 @@ import { assertEquals, assertThrows } from '@std/assert';
 import { z } from 'zod';
 import { zodToInputSchema } from './zod-to-input-schema.ts';
 import type { InputOutputSchema } from '../mcp-core/ports/tool-registry.ts';
-import {Input} from "npm:hono@4.7.6";
-import { type } from 'node:os';
 
 Deno.test('zodToInputSchema - basic string schema', () => {
   const schema = z.object({
@@ -26,7 +24,7 @@ Deno.test('zodToInputSchema - basic string schema', () => {
 Deno.test('zodToInputSchema - basic enum schema', () => {
   enum Mode {
     Mode1 = 'mode1',
-    Mode2 = 'mode2'
+    Mode2 = 'mode2',
   }
   const schema = z.object({
     mode: z.enum(Mode),
@@ -39,10 +37,10 @@ Deno.test('zodToInputSchema - basic enum schema', () => {
     properties: {
       mode: {
         type: 'enum',
-        enum: ['mode1', 'mode2']
-      }
+        enum: ['mode1', 'mode2'],
+      },
     },
-    required: ['mode']
+    required: ['mode'],
   };
 
   assertEquals(result, expected);
@@ -201,7 +199,7 @@ Deno.test('zodToInputSchema - throws on non-object schema', () => {
   assertThrows(
     () => zodToInputSchema(stringSchema),
     Error,
-    'zodToInputSchema expects a ZodObject schema'
+    'zodToInputSchema expects a ZodObject schema',
   );
 });
 
@@ -211,7 +209,7 @@ Deno.test('zodToInputSchema - throws on array schema', () => {
   assertThrows(
     () => zodToInputSchema(arraySchema),
     Error,
-    'zodToInputSchema expects a ZodObject schema'
+    'zodToInputSchema expects a ZodObject schema',
   );
 });
 

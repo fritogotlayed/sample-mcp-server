@@ -230,7 +230,7 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
       hostname: '0.0.0.0',
       handler: async (request: Request) => {
         const httpApiToken = Deno.env.get('HTTP_API_TOKEN');
-        if ( httpApiToken && request.headers.get('Authorization') !== `Bearer ${httpApiToken}`) {
+        if (httpApiToken && request.headers.get('Authorization') !== `Bearer ${httpApiToken}`) {
           return new Response('Unauthorized', { status: 401 });
         }
 
