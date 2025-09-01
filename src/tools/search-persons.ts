@@ -15,6 +15,7 @@ const SearchPersonsArgsSchema = z.object({
  */
 export const tool: ToolDefinition = {
   name: 'search_persons',
+  disabled: true,
   description:
     "Search persons by name, email, or phone. Use 'email=*@foo.com AND phone=123' format for searching multiple items.",
   inputSchema: zodToInputSchema(SearchPersonsArgsSchema),
