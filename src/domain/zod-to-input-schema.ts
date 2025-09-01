@@ -25,6 +25,27 @@ function getInnerType(s: z.ZodTypeAny): z.ZodTypeAny | undefined {
   return getDef(s)?.innerType;
 }
 
+function getEnumValues(schema: z.ZodTypeAny): string[] | undefined {
+  const def = getDef(schema) as any;
+  
+  // Zod enum stores values in _def.entries object
+  if (def?.entries && typeof def.entries === 'object') {
+    return Object.values(def.entries);
+  }
+  
+  // Fallback: try _def.values array for other Zod versions
+  if (def?.values && Array.isArray(def.values)) {
+    return def.values;
+  }
+  
+  // Try alternative locations where enum values might be stored
+  if (def?.options && Array.isArray(def.options)) {
+    return def.options;
+  }
+  
+  return undefined;
+}
+
 // Minimal converter from Zod object schema to MCP InputOutputSchema
 // Supports the subset we use in this project: objects with string fields, some optional
 // This is based on the npm library zod-to-json-schema. The library was not used though
@@ -55,7 +76,17 @@ export function zodToInputSchema(schema: z.ZodTypeAny): InputOutputSchema {
 
     // Currently support only strings; fall back to "string" if unknown
     const type = inferType(base);
-    properties[key] = { type: type ?? 'string' };
+    const propertyDef: { type: string; enum?: string[] } = { type: type ?? 'string' };
+    
+    // Handle enum types
+    if (type === 'enum') {
+      const enumValues = getEnumValues(base);
+      if (enumValues && enumValues.length > 0) {
+        propertyDef.enum = enumValues;
+      }
+    }
+    
+    properties[key] = propertyDef;
 
     // Required if field is not optional
     if (!isOptional(fieldSchema as z.ZodTypeAny)) {
@@ -112,6 +143,8 @@ function inferType(schema: z.ZodTypeAny): string | null {
       return 'array';
     case 'object':
       return 'object';
+    case 'enum':
+      return 'enum';
     // Support legacy ZodTypeName format for backward compatibility
     case 'ZodString':
       return 'string';
@@ -123,6 +156,8 @@ function inferType(schema: z.ZodTypeAny): string | null {
       return 'array';
     case 'ZodObject':
       return 'object';
+    case 'ZodEnum':
+      return 'enum';
     default:
       return null;
   }
