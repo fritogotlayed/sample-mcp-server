@@ -23,6 +23,11 @@
 - [ ] Install [Deno](https://deno.com/) so it can be used from the CLI
   - `deno --version` should return the deno version, typescript version, and v8 version
 - [ ] Download or `git clone` this repository
+  - **Note**: You do not need to have things configured to the point of being able to develop code at side. Simply
+    installing `git` should suffice.
+  - The `git clone https://github.com/fritogotlayed/sample-mcp-server.git` command will download the repository to your
+    computer which includes the various branch references. Don't worry if you don't know what this means! We'll get to
+    it during the workshop.
 
 # Other Useful Tools
 

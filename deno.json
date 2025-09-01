@@ -8,10 +8,10 @@
     "tool:test:coverage": "NODE_ENV=test deno task tool:test --coverage --clean && deno coverage --detailed"
   },
   "imports": {
-    "@fritogotlayed/dotenv-enhanced": "jsr:@fritogotlayed/dotenv-enhanced@^0.1.1",
-    "@std/assert": "jsr:@std/assert@1",
+    "@fritogotlayed/dotenv-enhanced": "jsr:@fritogotlayed/dotenv-enhanced@^0.1.2",
+    "@std/assert": "jsr:@std/assert@^1.0.14",
     "openapi-fetch": "npm:openapi-fetch@^0.14.0",
-    "zod": "npm:zod@^4.0.17"
+    "zod": "npm:zod@^4.1.5"
   },
   "fmt": {
     "singleQuote": true,

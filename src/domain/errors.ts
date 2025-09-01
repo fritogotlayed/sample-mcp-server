@@ -6,7 +6,7 @@ import { ZodError } from 'zod';
 export class ValidationError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'ToolError';
+    this.name = 'ValidationError';
   }
 }
 
