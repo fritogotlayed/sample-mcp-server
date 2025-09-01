@@ -26,7 +26,11 @@ function getInnerType(s: z.ZodTypeAny): z.ZodTypeAny | undefined {
 }
 
 function getEnumValues(schema: z.ZodTypeAny): string[] | undefined {
-  const def = getDef(schema) as any;
+  const def = getDef(schema) as {
+    entries?: unknown;
+    values?: unknown;
+    options?: unknown;
+  };
 
   // Zod enum stores values in _def.entries object
   if (def?.entries && typeof def.entries === 'object') {

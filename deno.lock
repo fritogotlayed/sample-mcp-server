@@ -5,7 +5,7 @@
     "jsr:@std/assert@^1.0.14": "1.0.14",
     "jsr:@std/dotenv@~0.225.5": "0.225.5",
     "jsr:@std/internal@^1.0.10": "1.0.10",
-    "npm:@types/node@*": "22.14.0",
+    "npm:@types/node@*": "22.15.15",
     "npm:openapi-fetch@0.14": "0.14.0",
     "npm:zod@^4.1.5": "4.1.5"
   },
@@ -30,8 +30,8 @@
     }
   },
   "npm": {
-    "@types/node@22.14.0": {
-      "integrity": "sha512-Kmpl+z84ILoG+3T/zQFyAJsU6EPTmOCj8/2+83fSN6djd6I4o7uOuGIH6vq3PrjY5BGitSbFuMN18j3iknubbA==",
+    "@types/node@22.15.15": {
+      "integrity": "sha512-R5muMcZob3/Jjchn5LcO8jdKwSCbzqmPB6ruBxMcf9kbxtniZHP327s6C37iOfuw8mbKK3cAQa7sEl7afLrQ8A==",
       "dependencies": [
         "undici-types"
       ]
