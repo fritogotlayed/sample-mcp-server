@@ -6,14 +6,16 @@ import { handleZodValidationError } from '../domain/errors.ts';
 import { zodToInputSchema } from '../domain/zod-to-input-schema.ts';
 
 enum Operation {
-  Equals = 'equals'
+  Equals = 'equals',
+  StartsWith = 'startsWith',
+  EndsWith = 'endsWith',
 }
 
 const FilterArgsSchema = z.object({
   data: z.array(z.unknown()).describe('A JSON array of objects that you wish to filter '),
   path: z.string().describe('A field name or dot notation to a field name that will be filtered upon. Ex "foo" for the root attribute of the object or "foo.bar" for the attribute bar of the object on attribute foo of the root object'),
   operation: z.enum(Operation).describe('The operation to apply upon the data at the specified path.'),
-  value: z.union([z.string(), z.number(), z.boolean()]).optional().describe('The value to match against the value that resides in the path.'),
+  value: z.union([z.string(), z.number(), z.boolean()]).describe('The value to match against the value that resides in the path.'),
 });
 
 /**
@@ -45,19 +47,20 @@ The response would be: [{"foo":{"bar":2},"baz":2}]
 /**
  * Handler for the filter tool
  * Applies the specified operation to each item in the provided data array at the given path
- * and returns the items that match. Currently supports the 'equals' operation.
+ * and returns the items that match. Supports 'equals', 'startsWith', and 'endsWith' operations.
  *
  * Args shape (validated by Zod):
  * - data: array of JSON objects to filter
  * - path: dot-notation path within each object (e.g., "foo" or "foo.bar")
- * - operation: currently only 'equals'
+ * - operation: one of 'equals' | 'startsWith' | 'endsWith'
  * - value: string | number | boolean | undefined
  *
  * Notes:
  * - Dot-notation traversal returns undefined if any segment is missing or non-object.
  * - Value coercion: string "true"/"false" are treated as booleans; numeric strings (e.g., "1", "-2.3") are treated as numbers.
  * - Comparison aligns the target field value to the coerced value type for number/boolean when possible.
- * - If value is undefined, items are matched when the path value is also undefined.
+ * - 'startsWith'/'endsWith' operate only on string values; non-string targets or values will not match.
+ * - If value is undefined, items are matched when the path value is also undefined (only for 'equals').
  *
  * @param args The tool arguments matching FilterArgsSchema
  * @param _services The services available to the tool (unused)
@@ -134,6 +137,27 @@ export const handler: ToolHandlerCallback<AppServices> = (args, _services) => {
           if (targetType === 'number' && typeof v === 'number') return v === coercedValue;
           if (targetType === 'boolean' && typeof v === 'boolean') return v === coercedValue;
           return false;
+        });
+        break;
+      }
+      case Operation.StartsWith: {
+        results = data.filter((item) => {
+          const vRaw = getByPath(item, path);
+          if (typeof coercedValue === 'undefined') return false;
+          // We only support string startsWith. Both sides must be strings after light coercion.
+          if (typeof vRaw !== 'string') return false;
+          if (typeof coercedValue !== 'string') return false;
+          return vRaw.startsWith(coercedValue);
+        });
+        break;
+      }
+      case Operation.EndsWith: {
+        results = data.filter((item) => {
+          const vRaw = getByPath(item, path);
+          if (typeof coercedValue === 'undefined') return false;
+          if (typeof vRaw !== 'string') return false;
+          if (typeof coercedValue !== 'string') return false;
+          return vRaw.endsWith(coercedValue);
         });
         break;
       }
