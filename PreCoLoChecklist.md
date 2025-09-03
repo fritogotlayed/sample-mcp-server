@@ -16,10 +16,17 @@
     the tray
 - [ ] Install one or more Ollama models that support **tools**
   - [Ollama Search page](https://ollama.com/search?c=tools) can be used to find appropriate models
-  - In terminal, use `ollama pull <name>:<label>`. Example: `ollama pull llama3.2:1b`
-    - `llama3.2:latest` and/or `gpt-oss:latest` are good choices
-    - **NOTE**: If you have a lower amount of system ram, i.e. 16GB or less, you likely want to use a smaller model like
-      `llama3.2:1b`
+  - In terminal, use `ollama pull <name>:<label>`. Example: `ollama pull gpt-oss:latest`
+    - Choices for development machine (32+ GB of RAM)
+      - `gpt-oss:latest` - Worked well in testing
+      - `qwen3:latest` - Worked well in testing
+      - `devstral:latest` - Worked well in testing
+    - Choices for non-development machine (<= 32 GB of RAM)
+      - **Note**: Many smaller models were problematic during testing; not all are listed here
+      - `smollm2:latest` - Okay choice, seems to hallucinate and not format well
+    - Models to avoid for this test
+      - `llama3.2` - Doesn't appear to support the MCP protocol from testing
+      - `mistral` - Doesn't appear to support the MCP protocol from testing
 - [ ] Install [Deno](https://deno.com/) so it can be used from the CLI
   - `deno --version` should return the deno version, typescript version, and v8 version
 - [ ] Download or `git clone` this repository
