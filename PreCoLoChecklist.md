@@ -23,6 +23,7 @@
       - `devstral:latest` - Worked well in testing
     - Choices for non-development machine (<= 32 GB of RAM)
       - **Note**: Many smaller models were problematic during testing; not all are listed here
+      - `qwen3:4b` or `qwen:1.7b` - Worked well in testing
       - `smollm2:latest` - Okay choice, seems to hallucinate and not format well
     - Models to avoid for this test
       - `llama3.2` - Doesn't appear to support the MCP protocol from testing
