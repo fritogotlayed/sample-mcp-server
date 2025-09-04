@@ -244,6 +244,19 @@ export class MCPServerService<TServices extends MCPServices = DefaultServices> {
           return new Response('OK', { status: 200 });
         }
 
+        if (
+          request.method === 'GET' &&
+          request.headers.get('accept') === 'text/event-stream'
+        ) {
+          const body = await request.text();
+          console.dir({
+            body,
+            headers: request.headers
+          });
+          // return new Response('OK', { status: 200, headers: {'content-type': 'text/event-stream'} });
+          return new Response('Method Not Allowed', { status: 405 });
+        }
+
         // For MCP requests
         if (
           request.method === 'POST' && new URL(request.url).pathname === '/'
